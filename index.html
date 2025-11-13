@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thiệp Chúc Mừng 20/11</title>
+<style>
+:root {
+  --card-w: 520px;
+  --card-h: 320px;
+  --accent: #e91e63;
+}
+* { box-sizing: border-box; margin:0; padding:0; }
+html, body { height: 100%; overflow: hidden; font-family:"Segoe UI", Tahoma, Geneva, Verdana, sans-serif; }
+
+/* --- NỀN GRADIENT ĐỘNG --- */
+body {
+  display: flex; justify-content:center; align-items:center;
+  background: linear-gradient(120deg, #fff5f8, #fff9e6);
+  background-size: 400% 400%;
+  animation: bgGradient 20s ease infinite;
+  position: relative;
+}
+@keyframes bgGradient {
+  0% { background-position:0% 50%; }
+  50% { background-position:100% 50%; }
+  100% { background-position:0% 50%; }
+}
+
+/* --- ÁNH SÁNG CHẠY THEO CHUỘT MẠNH HƠN --- */
+body::before {
+  content:'';
+  position:absolute; top:0; left:0; width:100%; height:100%;
+  pointer-events:none; z-index:1;
+  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.35) 0%, transparent 50%);
+  transition: background-position 0.1s, opacity 0.2s;
+  opacity:0.7;
+}
+
+/* --- THIỆP --- */
+.card {
+  width: var(--card-w); height: var(--card-h); perspective:1500px;
+  position: relative; cursor:pointer; transition:box-shadow 0.5s; border-radius:8px;
+  z-index:2;
+  box-shadow:0 0 15px 3px rgba(255,230,180,0.5);
+}
+.card.open {
+  box-shadow:0 0 30px 10px rgba(255,220,150,0.6),0 0 50px 20px rgba(255,230,180,0.4);
+}
+
+.inner-card { width:100%; height:100%; position:relative; transform-style: preserve-3d; }
+
+/* --- CÁNH THIỆP --- */
+.half {
+  position:absolute; top:0; width:50%; height:100%; overflow:hidden;
+  display:flex; align-items:center; justify-content:center; backface-visibility:hidden;
+  border-radius:6px; transform-origin:center; transition:transform 1s cubic-bezier(0.45,0,0.15,1);
+  box-shadow:0 8px 20px rgba(0,0,0,0.15);
+}
+.half.left { left:0; transform-origin:left center;
+  background: linear-gradient(160deg,#ffb6c1,#ffc0cb,#fff0f5); background-size:200% 200%;
+  animation: shiftLeft 6s ease-in-out infinite alternate;
+}
+.half.right { right:0; transform-origin:right center;
+  background: linear-gradient(200deg,#ffe1a8,#ffd7ba,#fff5e1); background-size:200% 200%;
+  animation: shiftRight 7s ease-in-out infinite alternate;
+}
+@keyframes shiftLeft{0%{background-position:0% 50%;}100%{background-position:100% 50%;}}
+@keyframes shiftRight{0%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+
+/* Khi mở thiệp */
+.card.open .half.left{transform:rotateY(-155deg);}
+.card.open .half.right{transform:rotateY(155deg);}
+
+/* --- CHỮ BÌA VỚI PHẢN CHIẾU --- */
+.half .label{
+  position:relative; display:flex; justify-content:center; align-items:center;
+  width:100%; padding:0 10px; text-align:center;
+  font-weight:700; font-size:1.3rem; letter-spacing:1px; color:#b22222;
+  text-shadow:0 1px 3px rgba(255,255,255,0.7); transform:translateZ(40px); overflow:hidden;
+}
+.half .label::before{
+  content:''; position:absolute; top:0; left:-100%; width:50%; height:100%;
+  background: linear-gradient(120deg, rgba(255,255,255,0), rgba(255,255,255,0.8), rgba(255,255,255,0));
+  transform: skewX(-25deg);
+  transition: left 0.3s ease;
+}
+.card.open .half.left .label::before { left: calc(100% * var(--leftAngle, 1)); }
+.card.open .half.right .label::before { left: calc(-100% + 100% * var(--rightAngle, 1)); }
+
+/* --- HIỆU ỨNG LẤP LÁNH --- */
+.half::after{
+  content:'';
+  position:absolute; top:0; left:0; width:100%; height:100%;
+  background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+  opacity:0;
+  pointer-events:none;
+  transition: opacity 0.3s, transform 0.3s;
+}
+.half.hoverEffect::after{opacity:0.25; transform:scale(1.1);}
+
+/* --- NỘI DUNG --- */
+.inside{
+  position:absolute; inset:12px; background:white; border-radius:8px;
+  border:2px solid rgba(240,160,180,0.5); box-shadow:0 14px 30px rgba(0,0,0,0.1);
+  padding:36px 28px; transform:scale(0.96); opacity:0; pointer-events:none;
+  transition:opacity 0.8s ease-out, transform 0.8s ease-out; z-index:2;
+}
+.card.open .inside{
+  opacity:1; transform:scale(1) translateY(0); pointer-events:auto;
+  animation: fadeSlideIn 1s ease-out;
+}
+@keyframes fadeSlideIn{from{opacity:0; transform:translateY(15px) scale(0.95);}to{opacity:1; transform:translateY(0) scale(1);}}
+
+.inside h1{color:#e91e63; margin-bottom:12px; font-size:1.5rem; font-weight:700;}
+.inside p{color:#444; line-height:1.6; font-size:1rem; text-align:justify; text-indent:1.2em;}
+.signature{margin-top:18px; color:#007bff; font-style:italic; font-weight:600; text-align:right;}
+
+/* --- GỢI Ý --- */
+.hint{position:absolute; bottom:-50px; left:50%; transform:translateX(-50%);
+color:#555; font-weight:bold; animation:pulse 1.6s infinite;}
+@keyframes pulse{0%{opacity:0.4;}50%{opacity:1;}100%{opacity:0.4;}}
+
+/* --- HÌNH RƠI NGOÀI THIỆP --- */
+.falling{
+  position:fixed; top:-4vh; font-size:18px; pointer-events:none;
+  will-change:transform,opacity; animation:fallPath linear forwards; z-index:0;
+}
+@keyframes fallPath{0%{transform:translate(0,-10vh) rotate(0deg);opacity:1;}100%{transform:translate(20vw,110vh) rotate(360deg);opacity:0;}}
+
+/* --- HÌNH MINH HỌA TRƯỜNG HỌC --- */
+.school-icon{
+  position:fixed; font-size:18px; pointer-events:none; opacity:0.6; z-index:0;
+  animation: floatIcon linear forwards;
+}
+@keyframes floatIcon{0%{transform:translateY(-5vh) rotate(0deg);}100%{transform:translateY(110vh) rotate(360deg);}}
+</style>
+</head>
+<body>
+
+<div class="card" id="card">
+  <div class="inner-card">
+    <div class="half left"><div class="label">🌸 20 / 11 🌸</div></div>
+    <div class="half right"><div class="label">💌 Ngày Nhà Giáo Việt Nam 💌</div></div>
+    <div class="inside">
+      <h1>Chào Mừng Ngày Nhà Giáo Việt Nam</h1>
+      <p>Xin gửi lời tri ân sâu sắc đến Thầy Cô – những người đã tận tâm gieo hạt tri thức và nuôi dưỡng ước mơ cho bao thế hệ học trò.  
+      Kính chúc Thầy Cô luôn mạnh khỏe, hạnh phúc và tràn đầy yêu thương!</p>
+      <div class="signature">— Đỗ Minh Đức —</div>
+    </div>
+  </div>
+</div>
+
+<div class="hint">👉 Nhấp để mở / đóng thiệp 👈</div>
+
+<script>
+const card=document.getElementById('card');
+let animating=false;
+card.addEventListener('click',()=>{
+  if(animating) return;
+  animating=true;
+  card.classList.toggle('open');
+  animating=false;
+});
+
+/* Cập nhật ánh sáng chữ theo góc bìa */
+function updateLabelLight(){
+  const left = card.querySelector('.half.left .label');
+  const right = card.querySelector('.half.right .label');
+  const leftAngle = card.classList.contains('open') ? 1 : 0;
+  const rightAngle = card.classList.contains('open') ? 1 : 0;
+  left.style.setProperty('--leftAngle', leftAngle);
+  right.style.setProperty('--rightAngle', rightAngle);
+}
+setInterval(updateLabelLight,50);
+
+/* hiệu ứng lấp lánh theo chuột */
+const halves = card.querySelectorAll('.half');
+card.addEventListener('mousemove', e=>{
+  const rect = card.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  halves.forEach(h=>{
+    const hx = h.offsetLeft + h.offsetWidth/2;
+    const hy = h.offsetTop + h.offsetHeight/2;
+    const dx = x-hx;
+    const dy = y-hy;
+    const dist = Math.sqrt(dx*dx+dy*dy);
+    const intensity = Math.max(0, 1 - dist/300);
+    if(intensity>0) h.classList.add('hoverEffect');
+    else h.classList.remove('hoverEffect');
+  });
+});
+
+/* hoa/tim/ngôi sao rơi */
+const MAX_FALL=12; let active=0;
+function createFalling(){
+  if(active>=MAX_FALL) return;
+  active++;
+  const el=document.createElement('div');
+  el.className='falling';
+  el.textContent=['🌸','💮','🌺','🌷','💖','⭐'][Math.floor(Math.random()*6)];
+  el.style.left=Math.random()*100+'vw';
+  el.style.animationDuration=6+Math.random()*5+'s';
+  el.style.fontSize=(14+Math.random()*14)+'px';
+  el.style.opacity=0.8;
+  document.body.appendChild(el);
+  el.addEventListener('animationend',()=>{el.remove();active--;});
+}
+setInterval(createFalling,900);
+
+/* icon trường học */
+const icons=['📚','✏️','🎓','🖍️','📝'];
+function createSchoolIcon(){
+  const el=document.createElement('div');
+  el.className='school-icon';
+  el.textContent=icons[Math.floor(Math.random()*icons.length)];
+  el.style.left=Math.random()*100+'vw';
+  el.style.fontSize=(16+Math.random()*12)+'px';
+  el.style.animationDuration=8+Math.random()*5+'s';
+  document.body.appendChild(el);
+  el.addEventListener('animationend',()=>{el.remove();});
+}
+setInterval(createSchoolIcon,1200);
+
+/* ánh sáng mạnh theo chuột */
+document.addEventListener('mousemove', e=>{
+  const x = e.clientX/window.innerWidth*100;
+  const y = e.clientY/window.innerHeight*100;
+  const intensity = 0.6 + 0.4 * Math.random(); // ánh sáng biến đổi nhẹ
+  document.body.style.background = `
+    radial-gradient(circle at ${x}% ${y}%, rgba(255,255,255,${intensity}) 0%, transparent 60%), 
+    linear-gradient(120deg, #fff5f8, #fff9e6)
+  `;
+});
+</script>
+</body>
+</html>
